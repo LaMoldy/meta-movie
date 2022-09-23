@@ -15,10 +15,11 @@ const Navbar = props => {
             size='md'
             color='white'
             fontWeight='normal'
+            data-testid='title'
           >
             Meta-Movie
           </Heading>
-          <HStack>
+          <HStack data-testid='nav'>
             <NavLink href='/' path={props.path}>
               <Text>Home</Text>
             </NavLink>
