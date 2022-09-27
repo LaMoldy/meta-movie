@@ -7,9 +7,9 @@ const MobileNavButton = ({ children }) => {
 
   return (
     <Flex>
-      <IconButton 
-        onClick={onOpen} 
-        aria-label='navigation menu' 
+      <IconButton
+        onClick={onOpen}
+        aria-label='navigation menu'
         icon={
           <HamburgerIcon boxSize='1.25em' color='black' />
         } />

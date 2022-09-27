@@ -1,4 +1,4 @@
-import Navbar from "../components/navbar/navbar"
+import Navbar from "../components/navbar/navbar";
 import { Text } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 

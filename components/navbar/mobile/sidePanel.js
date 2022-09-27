@@ -23,11 +23,11 @@ const SidePanel = ({ isOpen, onClose, placement, children }) => {
           <DrawerHeader>
             <Text>Pages</Text>
           </DrawerHeader>
-          <DrawerBody>{children}</DrawerBody>
+          <DrawerBody textAlign='center'>{children}</DrawerBody>
         </DrawerContent>
       </Drawer>
     </Flex>
   );
 }
 
-export default SidePanel
+export default SidePanel;

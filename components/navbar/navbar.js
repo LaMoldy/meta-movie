@@ -26,22 +26,28 @@ const Navbar = props => {
             <NavLink href='/login' path={props.path}>
               <Text>Login</Text>
             </NavLink>
+            <NavLink href='/registration' path={props.path}>
+              <Text>Sign Up</Text>
+            </NavLink>
           </HStack>
         </HStack>
         <HStack
-          display={{ base: 'flex', md: 'none' }} 
+          display={{ base: 'flex', md: 'none' }}
           flexDirection='row-reverse'
           justifyContent='space-between'
         >
           <MobileNavButton>
-            <NavLink href='/' path={props.path}>
+            <NavLink href='/' path={props.path} display='mobile'>
               <Text>Home</Text>
             </NavLink>
-            <NavLink href='/login' path={props.path}>
+            <NavLink href='/login' path={props.path} display='mobile'>
               <Text>Login</Text>
             </NavLink>
+            <NavLink href='/registration' path={props.path} display='mobile'>
+              <Text>Sign Up</Text>
+            </NavLink>
           </MobileNavButton>
-          <Heading 
+          <Heading
             as='h1'
             color='white'
             size='md'
@@ -51,7 +57,7 @@ const Navbar = props => {
         </HStack>
       </Box>
     </Container>
-  )
+  );
 }
 
 export default Navbar;
