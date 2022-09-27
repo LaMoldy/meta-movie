@@ -9,6 +9,7 @@ const Home = () => {
             placeholder='Search for a movie'
             mt={{ base: '6em', sm: '10em', md: '12em', lg: '15em' }}
             focusBorderColor='none'
+            borderRightRadius={0}
             data-testid='movieInput'
           />
           <Button
