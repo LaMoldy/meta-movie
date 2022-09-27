@@ -1,5 +1,5 @@
 import Navbar from '../components/navbar/navbar';
-import { Container, Input } from '@chakra-ui/react';
+import { Button, Container, Flex, Input } from '@chakra-ui/react';
 import { useRouter } from 'next/router';
 
 const Home = () => {
@@ -9,12 +9,22 @@ const Home = () => {
     <div>
       <Navbar path={router.asPath} />
       <Container>
-        <Input
-          placeholder='Search for a movie' 
-          mt={{ base: '6em', sm: '10em', md: '12em', lg: '15em' }}
-          focusBorderColor='none'
-          data-testid='movieInput'  
-        />
+        <Flex flexDir='row'>
+          <Input
+            placeholder='Search for a movie'
+            mt={{ base: 'none', sm: '10em', md: '12em', lg: '15em' }}
+            focusBorderColor='none'
+            data-testid='movieInput'
+          />
+          <Button
+            colorScheme='blue'
+            mt={{ base: 'none', sm: '10em', md: '12em', lg: '15em' }}
+            borderLeftRadius={0}
+            data-testid='inputSearchButton'
+          >
+            Search
+          </Button>
+        </Flex>
       </Container>
     </div>
   );

@@ -30,4 +30,10 @@ describe('Home', () => {
     const input = screen.getByTestId('movieInput');
     expect(input).toBeInTheDocument();
   });
+
+  it('Movie input box should have button on screen', () => {
+    render(<Home />);
+    const button = screen.getByTestId('inputSearchButton');
+    expect(button).toBeInTheDocument();
+  });
 });
