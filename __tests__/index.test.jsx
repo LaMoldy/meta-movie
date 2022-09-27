@@ -23,5 +23,11 @@ describe('Home', () => {
     render(<Home />);
     const title = screen.getByTestId('title');
     expect(title).toBeInTheDocument();
-  })
+  });
+  
+  it('Movie input box should be on screen', () => {
+    render(<Home />);
+    const input = screen.getByTestId('movieInput');
+    expect(input).toBeInTheDocument();
+  });
 });
