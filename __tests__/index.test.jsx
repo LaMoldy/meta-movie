@@ -1,5 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import Home from '../pages/index';
+import Layout from '../components/layout';
 import '@testing-library/jest-dom';
 import mockRouter from 'next-router-mock';
 
@@ -9,20 +10,7 @@ jest.mock('next/dist/client/router', () => require('next-router-mock'));
 
 describe('Home', () => {
   beforeEach(() => {
-    console.clear(); // Clears the console
     mockRouter.setCurrentUrl('/');
-  });
-
-  it('Renders a navbar', () => {
-    render(<Home />);
-    const navbar = screen.getByTestId('nav');
-    expect(navbar).toBeInTheDocument();
-  });
-
-  it('Site name on navbar', () => {
-    render(<Home />);
-    const title = screen.getByTestId('title');
-    expect(title).toBeInTheDocument();
   });
   
   it('Movie input box should be on screen', () => {
@@ -35,5 +23,31 @@ describe('Home', () => {
     render(<Home />);
     const button = screen.getByTestId('inputSearchButton');
     expect(button).toBeInTheDocument();
+  });
+});
+
+
+// Tests for the Layouts
+describe('Layout', () => {
+  beforeEach(() => {
+    mockRouter.setCurrentUrl('/');
+  });
+
+  it('Renders a navbar', () => {
+    render(<Layout />);
+    const navbar = screen.getByTestId('nav');
+    expect(navbar).toBeInTheDocument();
+  });
+
+  it('Site name on navbar', () => {
+    render(<Layout />);
+    const title = screen.getByTestId('title');
+    expect(title).toBeInTheDocument();
+  });
+
+  it('Footer should be displayed', () => {
+    render(<Layout />);
+    const footer = screen.getByTestId('footer');
+    expect(footer).toBeInTheDocument();
   });
 });

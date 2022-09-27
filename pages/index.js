@@ -1,13 +1,8 @@
-import Navbar from '../components/navbar/navbar';
 import { Button, Container, Flex, Input } from '@chakra-ui/react';
-import { useRouter } from 'next/router';
 
 const Home = () => {
-  const router = useRouter();
-
   return (
     <div>
-      <Navbar path={router.asPath} />
       <Container>
         <Flex flexDir='row'>
           <Input
