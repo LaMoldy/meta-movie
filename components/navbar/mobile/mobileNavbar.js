@@ -6,7 +6,7 @@ const MobileNavButton = ({ children }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
-    <Flex>
+    <Flex width='10'>
       <IconButton
         onClick={onOpen}
         aria-label='navigation menu'
