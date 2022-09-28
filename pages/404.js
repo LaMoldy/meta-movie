@@ -13,10 +13,10 @@ const UnknownPage = () => {
         margin='auto'
       >
         <Image
-          src='/assets/sad_face.png'
+          src='/sad_face.png'
           width='100px'
           height='100px'
-
+          alt='Sad Face'
         />
         <Divider orientation='horizontal' />
         <Heading as='h1'>404</Heading>
