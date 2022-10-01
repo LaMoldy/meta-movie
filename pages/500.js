@@ -23,9 +23,7 @@ const ServerProblemPage = () => {
         <Heading as="h1" data-testid="500">
           500
         </Heading>
-        <Text data-testid="server-text">
-          Looks like the server has run into a problem!
-        </Text>
+        <Text data-testid="server-text">Looks like there was an error!</Text>
       </Container>
     </Flex>
   )
