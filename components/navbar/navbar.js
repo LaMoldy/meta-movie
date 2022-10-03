@@ -5,7 +5,7 @@ import NavLink from './navLink'
 const Navbar = props => {
   return (
     <Container maxW="100%" m={0} p={0}>
-      <Box bg="#313030" w="100%" p={3}>
+      <Box bg="#1e1e1e" w="100%" p={3} boxShadow="dark-lg">
         <HStack display={{ base: 'none', md: 'flex' }} justify="space-between">
           <Heading
             as="h1"

@@ -10,9 +10,9 @@ const Footer = () => {
       maxW="100%"
       data-testid="footer"
     >
-      <Box width="100%" backgroundColor="#313030">
+      <Box width="100%" backgroundColor="#1e1e1e" boxShadow="dark-lg">
         <Text textAlign="center" p={2} color="#ffffff">
-          Nikk Jackson
+          &copy; Nikk Jackson
         </Text>
       </Box>
     </Container>
