@@ -3,6 +3,7 @@ import { Button, Container, Flex, Heading, Input } from '@chakra-ui/react'
 const onKeyDown = event => {
   let keyCode = event.keyCode
 
+  // Enter key = 13
   if (keyCode === 13) {
     alert('Enter has been pressed')
   }
