@@ -1,4 +1,5 @@
 import { Button, Container, Flex, Heading, Input } from '@chakra-ui/react'
+import Head from 'next/head'
 
 const onKeyDown = event => {
   let keyCode = event.keyCode
@@ -25,6 +26,9 @@ const Home = () => {
       m={0}
       bgColor="#383736"
     >
+      <Head>
+        <title>Home</title>
+      </Head>
       <Container>
         <Flex
           flexDir="column"

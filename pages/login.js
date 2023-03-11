@@ -1,16 +1,58 @@
-import { Button, Container, Flex, Heading, Input } from '@chakra-ui/react'
-import PasswordInput from '../components/inputs/passwordInput'
+import { Alert, AlertDescription, AlertIcon, AlertTitle, Button, Container, Flex, Heading, Input } from '@chakra-ui/react';
+import Head from 'next/head';
+import { useState } from 'react';
+import PasswordInput from '../components/inputs/passwordInput';
 
-const onKeyDown = event => {
-  let keyCode = event.keyCode
+async function getUsers() {
+  const res = await fetch("api/users");
+  const data = await res.json();
+  return data;
+}
 
-  // Checks if enter key is pressed
-  if (keyCode === 13) {
-    alert('Enter has been pressed')
+async function verifyUser(email, password) {
+  let users = await getUsers();
+  console.log("users", users);
+
+  let isCorrectLogin = false;
+  for (let i = 0; i < users.length; i++) {
+    if (email == users.data[i].email && password == users.data[i].password) {
+      isCorrectLogin = true;
+      break;
+    }
   }
+
+  return isCorrectLogin;
 }
 
 const Login = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState(false);
+
+  const onKeyUpHandler = async event => {
+    // Gets the keycode
+    let keyCode = event.keyCode
+
+    // Checks if enter key is pressed
+    if (keyCode === 13) {
+      let userLogin = await verifyUser(email, password);
+      if (!userLogin) {
+        setError(true);
+      }
+    }
+    else {
+      let value = event.target.value;
+      event.target.id === "email" ? setEmail(value) : setPassword(value);
+    }
+  }
+
+  const onClickHandler = async () => {
+    let userLogin = await verifyUser(email, password);
+    if (!userLogin) {
+      setError(true);
+    }
+  }
+
   return (
     <Container
       position="fixed"
@@ -22,6 +64,9 @@ const Login = () => {
       m={0}
       bgColor="#383736"
     >
+      <Head>
+        <title>Login</title>
+      </Head>
       <Container>
         <Flex
           flexDir="column"
@@ -34,20 +79,30 @@ const Login = () => {
             mb={4}
             data-testid="loginTitle"
           >
-            Meta-Movie
+            Login
           </Heading>
+
+          {error && // Checks if error is true
+            <Alert status="error" mb={3}>
+              <AlertIcon />
+              <AlertTitle>Error!</AlertTitle>
+              <AlertDescription>Email or password is invalid.</AlertDescription>
+            </Alert>
+          }
+
           <Input
-            placeholder="Username"
+            placeholder="Email"
             focusBorderColor="none"
             borderRadius={1}
             bgColor="white"
             data-testid="loginUsername"
             mb={3}
-            onKeyUp={onKeyDown}
+            onKeyUp={onKeyUpHandler}
+            id="email"
           />
-          <PasswordInput />
-          <Button colorScheme="blue" data-testid="loginSubmit">
-            Login
+          <PasswordInput onChangeHandler={onKeyUpHandler} />
+          <Button colorScheme="blue" onClick={onClickHandler} data-testid="loginSubmit">
+            Submit
           </Button>
         </Flex>
       </Container>

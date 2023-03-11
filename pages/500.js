@@ -1,9 +1,13 @@
 import { Container, Divider, Flex, Heading, Text } from '@chakra-ui/react'
+import Head from 'next/head'
 import Image from 'next/image'
 
 const ServerProblemPage = () => {
   return (
     <Flex alignContent="center" justifyContent="center" flexDir="column">
+      <Head>
+        <title>500 - Server Error</title>
+      </Head>
       <Container
         display="flex"
         flexDirection="column"

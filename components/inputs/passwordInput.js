@@ -2,7 +2,7 @@ import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons'
 import { Button, Input, InputGroup, InputRightElement } from '@chakra-ui/react'
 import { useState } from 'react'
 
-const PasswordInput = () => {
+const PasswordInput = ({ onKeyUpHandler }) => {
   const [showPassword, setShowPassword] = useState(false)
   const handleClick = () => setShowPassword(!showPassword)
 
@@ -15,6 +15,7 @@ const PasswordInput = () => {
         borderRadius={1}
         data-testid="loginPassword"
         type={showPassword ? 'text' : 'password'}
+        onKeyUp={onKeyUpHandler}
       />
       <InputRightElement w="4.5rem">
         <Button h="1.75rem" size="sm" onClick={handleClick}>

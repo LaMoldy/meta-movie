@@ -1,9 +1,13 @@
-import { Container, Divider, Flex, Heading, Text } from '@chakra-ui/react'
-import Image from 'next/image'
+import { Container, Divider, Flex, Heading, Text } from '@chakra-ui/react';
+import Head from "next/head";
+import Image from 'next/image';
 
 const UnknownPage = () => {
   return (
     <Flex alignContent="center" justifyContent="center" flexDir="column">
+      <Head>
+        <title>404 - Not Found</title>
+      </Head>
       <Container
         display="flex"
         flexDirection="column"
