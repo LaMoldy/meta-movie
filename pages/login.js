@@ -3,31 +3,31 @@ import Head from 'next/head';
 import { useState } from 'react';
 import PasswordInput from '../components/inputs/passwordInput';
 
-async function getUsers() {
-  const res = await fetch("api/users");
-  const data = await res.json();
-  return data;
+async function getUser(email) {
+  console.log(email)
+  const res = await fetch(`api/users/${email}`)
+  const data = await res.json()
+  return data
 }
 
 async function verifyUser(email, password) {
-  let users = await getUsers();
-  console.log("users", users);
+  let user = await getUser(email)
+  console.log('users', user)
 
-  let isCorrectLogin = false;
-  for (let i = 0; i < users.length; i++) {
-    if (email == users.data[i].email && password == users.data[i].password) {
-      isCorrectLogin = true;
-      break;
-    }
+  if (user === null) {
+    return false
+  } else if (email == user.email && password == user.password) {
+    return false
   }
 
-  return isCorrectLogin;
+  return true
 }
 
 const Login = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState(false);
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [errorMessage, setErrorMessage] = useState('')
+  const [error, setError] = useState(false)
 
   const onKeyUpHandler = async event => {
     // Gets the keycode
@@ -35,21 +35,38 @@ const Login = () => {
 
     // Checks if enter key is pressed
     if (keyCode === 13) {
-      let userLogin = await verifyUser(email, password);
-      if (!userLogin) {
-        setError(true);
+      if (email === '') {
+        setError(true)
+        setErrorMessage('Email cannot be empty.')
+      } else if (password === '') {
+        setError(true)
+        setErrorMessage('Password cannot be empty')
+      } else {
+        let userLogin = await verifyUser(email, password)
+        if (!userLogin) {
+          setError(true)
+          setErrorMessage('Email or password is invalid.')
+        }
       }
-    }
-    else {
-      let value = event.target.value;
-      event.target.id === "email" ? setEmail(value) : setPassword(value);
+    } else {
+      let value = event.target.value
+      event.target.id === 'email' ? setEmail(value) : setPassword(value)
     }
   }
 
   const onClickHandler = async () => {
-    let userLogin = await verifyUser(email, password);
-    if (!userLogin) {
-      setError(true);
+    if (email === '') {
+      setError(true)
+      setErrorMessage('Email cannot be empty.')
+    } else if (password === '') {
+      setError(true)
+      setErrorMessage('Password cannot be empty')
+    } else {
+      let userLogin = await verifyUser(email, password)
+      if (!userLogin) {
+        setError(true)
+        setErrorMessage('Email or password is invalid.')
+      }
     }
   }
 
@@ -82,13 +99,13 @@ const Login = () => {
             Login
           </Heading>
 
-          {error && // Checks if error is true
+          {error && ( // Checks if error is true
             <Alert status="error" mb={3}>
               <AlertIcon />
               <AlertTitle>Error!</AlertTitle>
-              <AlertDescription>Email or password is invalid.</AlertDescription>
+              <AlertDescription>{errorMessage}</AlertDescription>
             </Alert>
-          }
+          )}
 
           <Input
             placeholder="Email"
@@ -101,7 +118,11 @@ const Login = () => {
             id="email"
           />
           <PasswordInput onChangeHandler={onKeyUpHandler} />
-          <Button colorScheme="blue" onClick={onClickHandler} data-testid="loginSubmit">
+          <Button
+            colorScheme="blue"
+            onClick={onClickHandler}
+            data-testid="loginSubmit"
+          >
             Submit
           </Button>
         </Flex>
