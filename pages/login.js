@@ -1,36 +1,36 @@
-import { Alert, AlertDescription, AlertIcon, AlertTitle, Button, Container, Flex, Heading, Input } from '@chakra-ui/react';
-import Head from 'next/head';
-import { useState } from 'react';
-import PasswordInput from '../components/inputs/passwordInput';
-
-async function getUser(email) {
-  const res = await fetch(`api/users/${email}`)
-  const data = await res.json()
-  return data
-}
+import {
+  Alert,
+  AlertDescription,
+  AlertIcon,
+  AlertTitle,
+  Button,
+  CircularProgress,
+  Container,
+  Flex,
+  Heading,
+  Input
+} from '@chakra-ui/react'
+import Head from 'next/head'
+import { useRouter } from 'next/router'
+import { useState } from 'react'
+import PasswordInput from '../components/inputs/passwordInput'
+import { getUser } from '../services/database'
+import { isEmailAndPasswordValid, isEmailValid } from '../services/validation'
 
 async function verifyUser(email, password) {
-  let user = await getUser(email)
+  return new Promise((resolve, reject) => {
+    setTimeout(async () => {
+      let user = await getUser(email)
 
-  if (user === null) {
-    return false
-  } else if (email == user.email && password == user.password) {
-    return false
-  }
-
-  return true
-}
-
-export function isValidInputs(email, password) {
-  if (email === '' || email === null || email === undefined) {
-    return 'Email cannot be empty'
-  }
-
-  if (password === '' || password === null || password === undefined) {
-    return 'Password cannot be empty'
-  }
-
-  return ''
+      if (user === null) {
+        reject()
+      } else if (email == user.email && password == user.password) {
+        resolve()
+      } else {
+        reject()
+      }
+    }, 3000)
+  })
 }
 
 const Login = () => {
@@ -38,6 +38,8 @@ const Login = () => {
   const [password, setPassword] = useState('')
   const [errorMessage, setErrorMessage] = useState('')
   const [error, setError] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
+  const router = useRouter()
 
   const onKeyUpHandler = async event => {
     // Gets the keycode
@@ -45,33 +47,36 @@ const Login = () => {
 
     // Checks if enter key is pressed
     if (keyCode === 13) {
-      let isValid = isValidInputs(email, password)
-      if (isValid !== '') {
-        setError(true)
-        setErrorMessage(isValid)
-      } else {
-        let userLogin = await verifyUser(email, password)
-        if (!userLogin) {
-          setError(true)
-          setErrorMessage('Email or password is invalid.')
-        }
-      }
+      submitForm()
     } else {
       let value = event.target.value
       event.target.id === 'email' ? setEmail(value) : setPassword(value)
     }
   }
 
-  const onClickHandler = async () => {
-    let isValid = isValidInputs(email, password)
+  const submitForm = async () => {
+    let isValid = isEmailAndPasswordValid(email, password)
     if (isValid !== '') {
       setError(true)
       setErrorMessage(isValid)
+    } else if (!isEmailValid(email)) {
+      console.log(!isEmailValid(email), email)
+      let errorMessage = 'Email is not valid'
+      setError(true)
+      setErrorMessage(errorMessage)
     } else {
-      let userLogin = await verifyUser(email, password)
-      if (!userLogin) {
+      setError(false)
+      setIsLoading(true)
+      try {
+        await verifyUser(email, password)
+        setIsLoading(false)
+        router.push('/movies')
+      } catch (errorMsg) {
         setError(true)
-        setErrorMessage('Email or password is invalid.')
+        setErrorMessage('Invalid email or password')
+        setIsLoading(false)
+        setEmail('')
+        setPassword('')
       }
     }
   }
@@ -112,7 +117,6 @@ const Login = () => {
               <AlertDescription>{errorMessage}</AlertDescription>
             </Alert>
           )}
-
           <Input
             placeholder="Email"
             focusBorderColor="none"
@@ -126,10 +130,14 @@ const Login = () => {
           <PasswordInput onKeyUpHandler={onKeyUpHandler} />
           <Button
             colorScheme="blue"
-            onClick={onClickHandler}
             data-testid="loginSubmit"
+            onClick={submitForm}
           >
-            Submit
+            {isLoading ? (
+              <CircularProgress isIndeterminate size="24px" color="blue" />
+            ) : (
+              'Submit'
+            )}
           </Button>
         </Flex>
       </Container>

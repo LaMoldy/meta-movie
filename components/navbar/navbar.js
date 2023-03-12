@@ -23,7 +23,7 @@ const Navbar = props => {
             <NavLink href="/login" path={props.path}>
               <Text>Login</Text>
             </NavLink>
-            <NavLink href="/registration" path={props.path}>
+            <NavLink href="/register" path={props.path}>
               <Text>Sign Up</Text>
             </NavLink>
           </HStack>

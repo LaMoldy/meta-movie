@@ -2,8 +2,9 @@ import { PrismaClient } from '@prisma/client'
 
 const prisma = new PrismaClient()
 
-async function handle(req, res) {
+async function handler(req, res) {
   const { email } = req.query
+
   const users = await prisma.user.findUnique({
     where: {
       email: email
@@ -12,4 +13,4 @@ async function handle(req, res) {
   res.json(users)
 }
 
-export default handle
+export default handler
