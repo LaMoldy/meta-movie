@@ -4,7 +4,6 @@ import { useState } from 'react';
 import PasswordInput from '../components/inputs/passwordInput';
 
 async function getUser(email) {
-  console.log(email)
   const res = await fetch(`api/users/${email}`)
   const data = await res.json()
   return data
@@ -23,6 +22,19 @@ async function verifyUser(email, password) {
   return true
 }
 
+function isValidInputs(email, password) {
+  console.log(password)
+  if (email === '' || email === null || email === undefined) {
+    return 'Email cannot be empty'
+  }
+
+  if (password === '' || password === null || password === undefined) {
+    return 'Password cannot be empty'
+  }
+
+  return ''
+}
+
 const Login = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -35,12 +47,10 @@ const Login = () => {
 
     // Checks if enter key is pressed
     if (keyCode === 13) {
-      if (email === '') {
+      let isValid = isValidInputs(email, password)
+      if (isValid !== '') {
         setError(true)
-        setErrorMessage('Email cannot be empty.')
-      } else if (password === '') {
-        setError(true)
-        setErrorMessage('Password cannot be empty')
+        setErrorMessage(isValid)
       } else {
         let userLogin = await verifyUser(email, password)
         if (!userLogin) {
@@ -55,12 +65,10 @@ const Login = () => {
   }
 
   const onClickHandler = async () => {
-    if (email === '') {
+    let isValid = isValidInputs(email, password)
+    if (isValid !== '') {
       setError(true)
-      setErrorMessage('Email cannot be empty.')
-    } else if (password === '') {
-      setError(true)
-      setErrorMessage('Password cannot be empty')
+      setErrorMessage(isValid)
     } else {
       let userLogin = await verifyUser(email, password)
       if (!userLogin) {
@@ -117,7 +125,7 @@ const Login = () => {
             onKeyUp={onKeyUpHandler}
             id="email"
           />
-          <PasswordInput onChangeHandler={onKeyUpHandler} />
+          <PasswordInput onKeyUpHandler={onKeyUpHandler} />
           <Button
             colorScheme="blue"
             onClick={onClickHandler}
