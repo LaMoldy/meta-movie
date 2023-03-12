@@ -2,7 +2,7 @@ import '@testing-library/jest-dom'
 import { render, screen } from '@testing-library/react'
 import mockRouter from 'next-router-mock'
 
-import Login from '../pages/login'
+import Login, { isValidInputs } from '../pages/login'
 
 // Sets up jest to mock next js router and next link
 jest.mock('next/router', () => require('next-router-mock'))
@@ -33,5 +33,33 @@ describe('Login', () => {
     render(<Login />)
     const button = screen.getByTestId('loginSubmit')
     expect(button).toBeInTheDocument()
+  })
+
+  it('isValidInputs should return email empty message', () => {
+    let email = ''
+    let password = 'admin'
+    let isValid = isValidInputs(email, password)
+
+    let expectedResult = 'Email cannot be empty'
+
+    expect(isValid).toEqual(expectedResult)
+  })
+
+  it('isValidInputs should return password empty message', () => {
+    let email = 'test'
+    let password = ''
+    let isValid = isValidInputs(email, password)
+
+    let expectedResult = 'Password cannot be empty'
+
+    expect(isValid).toEqual(expectedResult)
+  })
+
+  it('isValidInputs should return empty message', () => {
+    let email = 'test'
+    let password = 'test'
+    let isValid = isValidInputs(email, password)
+
+    expect(isValid).toEqual('')
   })
 })

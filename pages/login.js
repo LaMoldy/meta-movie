@@ -11,7 +11,6 @@ async function getUser(email) {
 
 async function verifyUser(email, password) {
   let user = await getUser(email)
-  console.log('users', user)
 
   if (user === null) {
     return false
@@ -22,8 +21,7 @@ async function verifyUser(email, password) {
   return true
 }
 
-function isValidInputs(email, password) {
-  console.log(password)
+export function isValidInputs(email, password) {
   if (email === '' || email === null || email === undefined) {
     return 'Email cannot be empty'
   }
