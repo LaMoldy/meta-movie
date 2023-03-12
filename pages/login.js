@@ -48,10 +48,7 @@ const Login = () => {
     // Checks if enter key is pressed
     if (keyCode === 13) {
       submitForm()
-    } else {
-      let value = event.target.value
-      event.target.id === 'email' ? setEmail(value) : setPassword(value)
-    }
+    } 
   }
 
   const submitForm = async () => {
@@ -124,10 +121,12 @@ const Login = () => {
             bgColor="white"
             data-testid="loginUsername"
             mb={3}
+            onChange={e => setEmail(e.target.value)}
             onKeyUp={onKeyUpHandler}
+            value={email}
             id="email"
           />
-          <PasswordInput onKeyUpHandler={onKeyUpHandler} />
+          <PasswordInput inputEvent={e => setPassword(e.target.value)} inputKeyUp={onKeyUpHandler} inputValue={password} />
           <Button
             colorScheme="blue"
             data-testid="loginSubmit"

@@ -30,6 +30,8 @@ const Register = () => {
     // Gets the keycode
     let keyCode = e.keyCode
 
+    console.log(keyCode)
+
     // Checks if enter key is pressed
     if (keyCode === 13) {
       submitForm(e)
@@ -37,7 +39,6 @@ const Register = () => {
   }
 
   const submitForm = async e => {
-    e.preventDefault()
     let isValid = isEmailAndPasswordValid(email, password)
     if (isValid !== '') {
       setError(true)
@@ -123,6 +124,7 @@ const Register = () => {
             <PasswordInput
               inputName="password"
               inputEvent={e => setPassword(e.target.value)}
+              inputKeyUp={onKeyUpHandler}
               inputValue={password}
             />
             <Button
