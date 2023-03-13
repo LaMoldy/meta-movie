@@ -29,6 +29,8 @@ const Register = () => {
     // Gets the keycode
     let keyCode = e.keyCode
 
+    console.log(keyCode)
+
     // Checks if enter key is pressed
     if (keyCode === 13) {
       submitForm(e)

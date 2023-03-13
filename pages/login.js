@@ -110,8 +110,8 @@ const Login = () => {
             bgColor="white"
             data-testid="loginUsername"
             mb={3}
-            onKeyUp={onKeyUpHandler}
             onChange={e => setEmail(e.target.value)}
+            onKeyUp={onKeyUpHandler}
             value={email}
             id="email"
           />
