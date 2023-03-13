@@ -2,7 +2,7 @@ import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons'
 import { Button, Input, InputGroup, InputRightElement } from '@chakra-ui/react'
 import { useState } from 'react'
 
-const PasswordInput = ({ inputEvent, inputName, inputValue }) => {
+const PasswordInput = ({ inputEvent, inputName, inputValue, inputOnKeyUp }) => {
   const [showPassword, setShowPassword] = useState(false)
   const handleClick = () => setShowPassword(!showPassword)
 
@@ -16,6 +16,7 @@ const PasswordInput = ({ inputEvent, inputName, inputValue }) => {
         data-testid="loginPassword"
         type={showPassword ? 'text' : 'password'}
         onChange={inputEvent}
+        onKeyUp={inputOnKeyUp}
         value={inputValue}
         name={inputName}
       />

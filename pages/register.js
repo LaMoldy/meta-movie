@@ -11,13 +11,11 @@ import {
   Input
 } from '@chakra-ui/react'
 import Head from 'next/head'
+import { useRouter } from 'next/router'
 import { useState } from 'react'
 import PasswordInput from '../components/inputs/passwordInput'
-import {
-  isEmailAndPasswordValid,
-  isEmailTaken,
-  isEmailValid
-} from '../services/validation'
+import { createUser } from '../services/database'
+import { isEmailTaken, validateEmailPasswordForm } from '../services/validation'
 
 const Register = () => {
   const [error, setError] = useState(false)
@@ -25,6 +23,7 @@ const Register = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [isLoading, setIsLoading] = useState(false)
+  const router = useRouter()
 
   const onKeyUpHandler = async e => {
     // Gets the keycode
@@ -36,32 +35,25 @@ const Register = () => {
     }
   }
 
-  const submitForm = async e => {
-    e.preventDefault()
-    let isValid = isEmailAndPasswordValid(email, password)
-    if (isValid !== '') {
+  const submitForm = async () => {
+    let message = validateEmailPasswordForm(email, password)
+    if (message !== '') {
       setError(true)
-      setErrorMessage(isValid)
-      e.preventDefault()
+      setErrorMessage(message)
     } else {
-      if (!isEmailValid(email)) {
-        setError(true)
-        setErrorMessage('Email is not valid')
-        e.preventDefault()
-      } else {
-        setError(false)
-        setIsLoading(true)
-        try {
-          await isEmailTaken(email)
-          setIsLoading(false)
-        } catch (errorMessage) {
-          setError(true)
-          setErrorMessage('Email has already been taken')
-          setIsLoading(false)
-          setEmail('')
-          setPassword('')
-          e.preventDefault()
+      setIsLoading(true)
+      try {
+        await isEmailTaken(email)
+        console.log('Email:', email, 'Password:', password)
+        let response = await createUser(email, password)
+        console.log(response)
+        if (createUser(email, password) !== false) {
+          router.push('/login')
         }
+      } catch (errorMessage) {
+        setError(true)
+        setErrorMessage('Email has already been taken')
+        setIsLoading(false)
       }
     }
   }
@@ -81,10 +73,7 @@ const Register = () => {
         <title>Register</title>
       </Head>
       <Container>
-        <Flex
-          flexDir="column"
-          mt={{ base: '6em', sm: '10em', md: '12em', lg: '15em' }}
-        >
+        <Flex flexDir="column" mt={'10vmax'}>
           <Heading
             as="h4"
             color="white"
@@ -102,42 +91,37 @@ const Register = () => {
               <AlertDescription>{errorMessage}</AlertDescription>
             </Alert>
           )}
-          <form
-            method="POST"
-            action={`/api/users/create`}
-            onSubmit={submitForm}
+          <Input
+            placeholder="Email"
+            focusBorderColor="none"
+            borderRadius={1}
+            bgColor="white"
+            data-testid="loginUsername"
+            mb={3}
+            onKeyUp={onKeyUpHandler}
+            id="email"
+            name="email"
+            value={email}
+            onChange={e => setEmail(e.target.value)}
+          />
+          <PasswordInput
+            inputName="password"
+            inputEvent={e => setPassword(e.target.value)}
+            inputOnKeyUp={onKeyUpHandler}
+            inputValue={password}
+          />
+          <Button
+            colorScheme="blue"
+            width={'100%'}
+            data-testid="loginSubmit"
+            onClick={submitForm}
           >
-            <Input
-              placeholder="Email"
-              focusBorderColor="none"
-              borderRadius={1}
-              bgColor="white"
-              data-testid="loginUsername"
-              mb={3}
-              onKeyUp={onKeyUpHandler}
-              id="email"
-              name="email"
-              value={email}
-              onChange={e => setEmail(e.target.value)}
-            />
-            <PasswordInput
-              inputName="password"
-              inputEvent={e => setPassword(e.target.value)}
-              inputValue={password}
-            />
-            <Button
-              colorScheme="blue"
-              width={'100%'}
-              data-testid="loginSubmit"
-              type="submit"
-            >
-              {isLoading ? (
-                <CircularProgress isIndeterminate size="24px" color="blue" />
-              ) : (
-                'Submit'
-              )}
-            </Button>
-          </form>
+            {isLoading ? (
+              <CircularProgress isIndeterminate size="24px" color="blue" />
+            ) : (
+              'Submit'
+            )}
+          </Button>
         </Flex>
       </Container>
     </Container>

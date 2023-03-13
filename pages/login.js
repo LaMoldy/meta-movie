@@ -15,7 +15,7 @@ import { useRouter } from 'next/router'
 import { useState } from 'react'
 import PasswordInput from '../components/inputs/passwordInput'
 import { getUser } from '../services/database'
-import { isEmailAndPasswordValid, isEmailValid } from '../services/validation'
+import { validateEmailPasswordForm } from '../services/validation'
 
 async function verifyUser(email, password) {
   return new Promise((resolve, reject) => {
@@ -48,35 +48,24 @@ const Login = () => {
     // Checks if enter key is pressed
     if (keyCode === 13) {
       submitForm()
-    } else {
-      let value = event.target.value
-      event.target.id === 'email' ? setEmail(value) : setPassword(value)
     }
   }
 
   const submitForm = async () => {
-    let isValid = isEmailAndPasswordValid(email, password)
-    if (isValid !== '') {
+    let message = validateEmailPasswordForm(email, password)
+    if (message !== '') {
       setError(true)
-      setErrorMessage(isValid)
-    } else if (!isEmailValid(email)) {
-      console.log(!isEmailValid(email), email)
-      let errorMessage = 'Email is not valid'
-      setError(true)
-      setErrorMessage(errorMessage)
+      setErrorMessage(message)
     } else {
-      setError(false)
       setIsLoading(true)
       try {
         await verifyUser(email, password)
         setIsLoading(false)
         router.push('/movies')
-      } catch (errorMsg) {
+      } catch (errorMessage) {
         setError(true)
         setErrorMessage('Invalid email or password')
         setIsLoading(false)
-        setEmail('')
-        setPassword('')
       }
     }
   }
@@ -96,10 +85,7 @@ const Login = () => {
         <title>Login</title>
       </Head>
       <Container>
-        <Flex
-          flexDir="column"
-          mt={{ base: '6em', sm: '10em', md: '12em', lg: '15em' }}
-        >
+        <Flex flexDir="column" mt={'10vmax'}>
           <Heading
             as="h4"
             color="white"
@@ -125,9 +111,15 @@ const Login = () => {
             data-testid="loginUsername"
             mb={3}
             onKeyUp={onKeyUpHandler}
+            onChange={e => setEmail(e.target.value)}
+            value={email}
             id="email"
           />
-          <PasswordInput onKeyUpHandler={onKeyUpHandler} />
+          <PasswordInput
+            inputValue={password}
+            inputEvent={e => setPassword(e.target.value)}
+            inputOnKeyUp={onKeyUpHandler}
+          />
           <Button
             colorScheme="blue"
             data-testid="loginSubmit"

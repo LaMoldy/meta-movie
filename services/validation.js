@@ -21,9 +21,7 @@ export async function isEmailTaken(email) {
   return new Promise((resolve, reject) => {
     setTimeout(async () => {
       let user = await getUser(email)
-
-      console.log("User", user)
-
+      console.log("User:", user)
       if (user === null) {
         resolve()
       } else {
@@ -31,4 +29,16 @@ export async function isEmailTaken(email) {
       }
     }, 3000)
   })
+}
+
+export function validateEmailPasswordForm(email, password) {
+  let message = ''
+
+  if (isEmailAndPasswordValid(email, password) !== '') {
+    message = isEmailAndPasswordValid(email, password)
+  } else if (!isEmailValid(email)) {
+    message = 'Email is not valid'
+  }
+
+  return message
 }
