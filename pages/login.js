@@ -14,24 +14,10 @@ import Head from 'next/head'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
 import PasswordInput from '../components/inputs/passwordInput'
-import { getUser } from '../services/database'
 import { validateEmailPasswordForm } from '../services/validation'
+import { verifyUser } from '../services/validation'
 
-async function verifyUser(email, password) {
-  return new Promise((resolve, reject) => {
-    setTimeout(async () => {
-      let user = await getUser(email)
 
-      if (user === null) {
-        reject()
-      } else if (email == user.email && password == user.password) {
-        resolve()
-      } else {
-        reject()
-      }
-    }, 3000)
-  })
-}
 
 const Login = () => {
   const [email, setEmail] = useState('')

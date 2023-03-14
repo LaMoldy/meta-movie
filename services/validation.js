@@ -1,4 +1,5 @@
 import { getUser } from '../services/database'
+import { comparePasswords } from './passwords'
 
 export function isEmailAndPasswordValid(email, password) {
   if (email === '' || email === null || email === undefined) {
@@ -41,4 +42,20 @@ export function validateEmailPasswordForm(email, password) {
   }
 
   return message
+}
+
+export async function verifyUser(email, password) {
+  return new Promise((resolve, reject) => {
+    setTimeout(async () => {
+      let user = await getUser(email)
+
+      if (user === null) {
+        reject()
+      } else if (email == user.email && comparePasswords(password, user.password)) {
+        resolve()
+      } else {
+        reject()
+      }
+    }, 3000)
+  })
 }
