@@ -1,8 +1,11 @@
-import { Box, Container, Heading, HStack, Text } from '@chakra-ui/react'
+import { Box, Container, Heading, HStack } from '@chakra-ui/react'
 import MobileNavButton from './mobile/mobileNavbar'
-import NavLink from './navLink'
+import React from 'react'
 
-const Navbar = props => {
+const Navbar = ({ children }) => {
+  let mobileChildren = React.Children.map(children, el => {
+    return React.cloneElement(el, { display: "mobile"})
+  })
   return (
     <Container maxW="100%" m={0} p={0}>
       <Box bg="#1e1e1e" w="100%" p={3} boxShadow="dark-lg">
@@ -17,15 +20,7 @@ const Navbar = props => {
             Meta-Movie
           </Heading>
           <HStack data-testid="nav">
-            <NavLink href="/" path={props.path}>
-              <Text>Home</Text>
-            </NavLink>
-            <NavLink href="/login" path={props.path}>
-              <Text>Login</Text>
-            </NavLink>
-            <NavLink href="/register" path={props.path}>
-              <Text>Sign Up</Text>
-            </NavLink>
+            {children}
           </HStack>
         </HStack>
         <HStack
@@ -34,15 +29,7 @@ const Navbar = props => {
           justifyContent="space-between"
         >
           <MobileNavButton>
-            <NavLink href="/" path={props.path} display="mobile">
-              <Text>Home</Text>
-            </NavLink>
-            <NavLink href="/login" path={props.path} display="mobile">
-              <Text>Login</Text>
-            </NavLink>
-            <NavLink href="/registration" path={props.path} display="mobile">
-              <Text>Sign Up</Text>
-            </NavLink>
+            {mobileChildren}
           </MobileNavButton>
           <Heading as="h1" color="white" size="md">
             Meta-Movie

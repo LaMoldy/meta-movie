@@ -8,7 +8,8 @@ import {
   Container,
   Flex,
   Heading,
-  Input
+  Input,
+  Text
 } from '@chakra-ui/react'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
@@ -16,6 +17,8 @@ import { useState } from 'react'
 import PasswordInput from '../components/inputs/passwordInput'
 import { createUser } from '../services/database'
 import { isEmailTaken, validateEmailPasswordForm } from '../services/validation'
+import Navbar from '../components/navbar/navbar'
+import NavLink from '../components/navbar/navLink'
 
 const Register = () => {
   const [error, setError] = useState(false)
@@ -71,6 +74,17 @@ const Register = () => {
       m={0}
       bgColor="#383736"
     >
+      <Navbar path={router.asPath}>
+        <NavLink href="/" path={router.asPath}>
+          <Text>Home</Text>
+        </NavLink>
+        <NavLink href="/login" path={router.asPath}>
+          <Text>Login</Text>
+        </NavLink>
+        <NavLink href="/register" path={router.asPath}>
+          <Text>Sign Up</Text>
+        </NavLink>
+      </Navbar>
       <Head>
         <title>Register</title>
       </Head>

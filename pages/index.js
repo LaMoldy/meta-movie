@@ -1,5 +1,8 @@
-import { Button, Container, Flex, Heading, Input } from '@chakra-ui/react'
+import { Button, Container, Flex, Heading, Input, Text } from '@chakra-ui/react'
 import Head from 'next/head'
+import { useRouter } from 'next/router'
+import NavLink from '../components/navbar/navLink'
+import Navbar from '../components/navbar/navbar'
 
 const onKeyDown = event => {
   let keyCode = event.keyCode
@@ -15,6 +18,7 @@ const onSearchClick = () => {
 }
 
 const Home = () => {
+  const router = useRouter()
   return (
     <Container
       position="fixed"
@@ -26,6 +30,17 @@ const Home = () => {
       m={0}
       bgColor="#383736"
     >
+      <Navbar path={router.asPath}>
+        <NavLink href="/" path={router.asPath}>
+          <Text>Home</Text>
+        </NavLink>
+        <NavLink href="/login" path={router.asPath}>
+          <Text>Login</Text>
+        </NavLink>
+        <NavLink href="/register" path={router.asPath}>
+          <Text>Sign Up</Text>
+        </NavLink>
+      </Navbar>
       <Head>
         <title>Home</title>
       </Head>
