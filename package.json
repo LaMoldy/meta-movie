@@ -15,6 +15,10 @@
   ],
   "author": "Nikk Jackson (LaMoldy)",
   "license": "ISC",
+  "prisma": {
+    "seed": "node services/seed.js"
+  },
+  "type": "module",
   "dependencies": {
     "@chakra-ui/icons": "^2.0.9",
     "@chakra-ui/react": "^2.3.2",

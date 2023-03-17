@@ -15,5 +15,11 @@ model User {
   email    String @unique
   password String
   name     String?
+  type     Int @default(2)
 }
 
+model Movie {
+  id       Int @id @default(autoincrement())
+  name     String
+  imageUrl String
+}
