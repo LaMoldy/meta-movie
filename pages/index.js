@@ -26,19 +26,18 @@ const Home = () => {
   const router = useRouter()
 
   useEffect(() => {
-    let possibleUser = sessionStorage.getItem('user')
+    let possibleUser = JSON.parse(sessionStorage.getItem('user'))
 
     if (possibleUser !== null) {
       setLoggedInUser(true)
-      let possibleAdmin = JSON.parse(possibleUser)
-
-      if (possibleAdmin.type === 1) {
+      if (possibleUser.type === 1) {
         setIsAdmin(true)
       }
     }
 
     setUser(possibleUser)
-  }, [user])
+    console.log(user)
+  }, [isUserLoggedIn])
 
   return (
     <Container
@@ -59,6 +58,9 @@ const Home = () => {
             <NavLink href="/movies" path={router.asPath}>
               <Text>Movies</Text>
             </NavLink>
+            <NavLink href={"/profile/" + user.id} path={router.asPath}>
+              <Text>Profile</Text>
+            </NavLink>
             <NavButton path={router.asPath} />
           </Navbar>
         }
@@ -66,6 +68,9 @@ const Home = () => {
           <Navbar>
             <NavLink href="/movies" path={router.asPath}>
               <Text>Movies</Text>
+            </NavLink>
+            <NavLink href={"/profile/" + user.id} path={router.asPath}>
+              <Text>Profile</Text>
             </NavLink>
             <NavButton path={router.asPath} />
           </Navbar>

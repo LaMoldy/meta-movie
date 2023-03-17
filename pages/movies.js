@@ -6,18 +6,20 @@ import NavButton from "../components/navbar/navButton"
 import NavLink from "../components/navbar/navLink"
 
 const Movies = () => {
-  const [isAdmin, setIsAdmin] = useState()
+  const [user, setUser] = useState(null)
+  const [isAdmin, setIsAdmin] = useState(false)
 
   let router = useRouter()
 
   useEffect(() => {
-    console.log('run')
     let foundUser = JSON.parse(sessionStorage.getItem('user'))
     
     if (foundUser.type === 1) {
       setIsAdmin(true)
     }
-  }, [isAdmin])
+
+    setUser(foundUser)
+  }, [])
 
   return (
     <Container
@@ -32,11 +34,14 @@ const Movies = () => {
     >
       { isAdmin && 
         <Navbar>
+          <NavLink href="/" path={router.asPath}>
+            <Text>Home</Text>
+          </NavLink>
           <NavLink href="/admin" path={router.asPath}>
             <Text>Admin panel</Text>
           </NavLink>
-          <NavLink href="/" path={router.asPath}>
-            <Text>Home</Text>
+          <NavLink href={"/profile/" + user?.id} path={router.asPath}>
+            <Text>Profile</Text>
           </NavLink>
           <NavButton path={router.asPath} />
         </Navbar>
@@ -45,6 +50,9 @@ const Movies = () => {
         <Navbar>
           <NavLink href={'/'} path={router.asPath}>
             <Text>Home</Text>
+          </NavLink>
+          <NavLink href={"/profile/" + user?.id} path={router.asPath}>
+            <Text>Profile</Text>
           </NavLink>
           <NavButton path={router.asPath} />
         </Navbar>

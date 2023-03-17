@@ -11,11 +11,12 @@ datasource db {
 }
 
 model User {
-  id       Int @id @default(autoincrement())
-  email    String @unique
-  password String
-  name     String?
-  type     Int @default(2)
+  id         Int @id @default(autoincrement())
+  email      String @unique
+  password   String
+  name       String?
+  profileUrl String @default("https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png")
+  type       Int @default(2)
 }
 
 model Movie {
