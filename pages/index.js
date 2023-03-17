@@ -46,7 +46,7 @@ const Home = () => {
       bgColor="#383736"
     >
         { isUserLoggedIn &&
-          <Navbar path={router.asPath}>
+          <Navbar>
             <NavLink href="/movies" path={router.asPath}>
               <Text>Movies</Text>
             </NavLink>
@@ -54,7 +54,7 @@ const Home = () => {
           </Navbar>
         }
         { !isUserLoggedIn &&
-          <Navbar path={router.asPath}>
+          <Navbar>
             <NavLink href="/" path={router.asPath}>
               <Text>Home</Text>
             </NavLink>

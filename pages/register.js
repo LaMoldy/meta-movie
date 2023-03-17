@@ -74,7 +74,7 @@ const Register = () => {
       m={0}
       bgColor="#383736"
     >
-      <Navbar path={router.asPath}>
+      <Navbar>
         <NavLink href="/" path={router.asPath}>
           <Text>Home</Text>
         </NavLink>
