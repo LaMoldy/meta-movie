@@ -1,13 +1,16 @@
 import { Button } from "@chakra-ui/react"
 import { useRouter } from "next/router"
 
-const NavButton = ({ display }) => {
+const NavButton = ({ display, path }) => {
   const router = useRouter() 
 
   function onClickHandler() {
     sessionStorage.removeItem('user')
     router.push('/')
-    router.reload()
+
+    if (path === '/') {
+      router.reload()
+    }
   }
 
   if (display === "mobile") {

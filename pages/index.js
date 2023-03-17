@@ -22,13 +22,19 @@ const onSearchClick = () => {
 const Home = () => {
   const [user, setUser] = useState(null)
   const [isUserLoggedIn, setLoggedInUser] = useState(false)
+  const [isAdmin, setIsAdmin] = useState(false)
   const router = useRouter()
+
   useEffect(() => {
     let possibleUser = sessionStorage.getItem('user')
-    console.log(possibleUser)
 
     if (possibleUser !== null) {
       setLoggedInUser(true)
+      let possibleAdmin = JSON.parse(possibleUser)
+
+      if (possibleAdmin.type === 1) {
+        setIsAdmin(true)
+      }
     }
 
     setUser(possibleUser)
@@ -45,12 +51,23 @@ const Home = () => {
       m={0}
       bgColor="#383736"
     >
-        { isUserLoggedIn &&
+        { (isUserLoggedIn && isAdmin) &&
+          <Navbar>
+            <NavLink href="/admin" path={router.asPath}>
+              <Text>Admin panel</Text>
+            </NavLink>
+            <NavLink href="/movies" path={router.asPath}>
+              <Text>Movies</Text>
+            </NavLink>
+            <NavButton path={router.asPath} />
+          </Navbar>
+        }
+        { (isUserLoggedIn && !isAdmin) &&
           <Navbar>
             <NavLink href="/movies" path={router.asPath}>
               <Text>Movies</Text>
             </NavLink>
-            <NavButton />
+            <NavButton path={router.asPath} />
           </Navbar>
         }
         { !isUserLoggedIn &&
