@@ -19,6 +19,7 @@ import { validateEmailPasswordForm } from '../services/validation'
 import { verifyUser } from '../services/validation'
 import Navbar from '../components/navbar/navbar'
 import NavLink from '../components/navbar/navLink'
+import { getUser } from '../services/database'
 
 
 
@@ -50,6 +51,8 @@ const Login = () => {
       try {
         await verifyUser(email, password)
         setIsLoading(false)
+        let user = await getUser(email);
+        sessionStorage.setItem('user', JSON.stringify(user))
         router.push('/movies')
       } catch (errorMessage) {
         setError(true)

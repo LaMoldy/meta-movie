@@ -1,10 +1,19 @@
 import { Container, Divider, Flex, Heading, Text } from '@chakra-ui/react';
 import Head from "next/head";
 import Image from 'next/image';
+import Navbar from '../components/navbar/navbar';
+import NavLink from '../components/navbar/navLink';
+import { useRouter } from 'next/router';
 
 const UnknownPage = () => {
+  const router = useRouter()
   return (
     <Flex alignContent="center" justifyContent="center" flexDir="column">
+      <Navbar path={router.asPath}>
+        <NavLink href="/" path={router.asPath}>
+          <Text>Home</Text>
+        </NavLink>
+      </Navbar>
       <Head>
         <title>404 - Not Found</title>
       </Head>

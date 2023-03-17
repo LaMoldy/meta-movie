@@ -1,6 +1,8 @@
 import { Button, Container, Flex, Heading, Input, Text } from '@chakra-ui/react'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
+import { useEffect, useState } from 'react'
+import NavButton from '../components/navbar/navButton'
 import NavLink from '../components/navbar/navLink'
 import Navbar from '../components/navbar/navbar'
 
@@ -18,7 +20,20 @@ const onSearchClick = () => {
 }
 
 const Home = () => {
+  const [user, setUser] = useState(null)
+  const [isUserLoggedIn, setLoggedInUser] = useState(false)
   const router = useRouter()
+  useEffect(() => {
+    let possibleUser = sessionStorage.getItem('user')
+    console.log(possibleUser)
+
+    if (possibleUser !== null) {
+      setLoggedInUser(true)
+    }
+
+    setUser(possibleUser)
+  }, [user])
+
   return (
     <Container
       position="fixed"
@@ -30,17 +45,27 @@ const Home = () => {
       m={0}
       bgColor="#383736"
     >
-      <Navbar path={router.asPath}>
-        <NavLink href="/" path={router.asPath}>
-          <Text>Home</Text>
-        </NavLink>
-        <NavLink href="/login" path={router.asPath}>
-          <Text>Login</Text>
-        </NavLink>
-        <NavLink href="/register" path={router.asPath}>
-          <Text>Sign Up</Text>
-        </NavLink>
-      </Navbar>
+        { isUserLoggedIn &&
+          <Navbar path={router.asPath}>
+            <NavLink href="/movies" path={router.asPath}>
+              <Text>Movies</Text>
+            </NavLink>
+            <NavButton />
+          </Navbar>
+        }
+        { !isUserLoggedIn &&
+          <Navbar path={router.asPath}>
+            <NavLink href="/" path={router.asPath}>
+              <Text>Home</Text>
+            </NavLink>
+            <NavLink href="/login" path={router.asPath}>
+              <Text>Login</Text>
+            </NavLink>
+            <NavLink href="/register" path={router.asPath}>
+              <Text>Sign Up</Text>
+            </NavLink>
+          </Navbar>
+        }
       <Head>
         <title>Home</title>
       </Head>

@@ -7,7 +7,7 @@ const NavLink = ({ href, path, display, children }) => {
   if (display === 'mobile') {
     return (
       <NextLink href={href}>
-        <Link color={isCurrentPage ? 'grey' : 'black'} pt={2}>
+        <Link color={isCurrentPage ? 'grey' : 'black'} pt={2} >
           {children}
         </Link>
       </NextLink>
