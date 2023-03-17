@@ -51,7 +51,8 @@ export async function verifyUser(email, password) {
 
       if (user === null) {
         reject()
-      } else if (email == user.email && comparePasswords(password, user.password)) {
+      } else if (email == user.email && await comparePasswords(password, user.password)) {
+        console.log('password compare:', comparePasswords(password, user.password))
         resolve()
       } else {
         reject()
