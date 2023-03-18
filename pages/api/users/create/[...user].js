@@ -17,7 +17,8 @@ async function handler(req, res) {
   }
 
   try {
-    await prisma.user.create(newUser).then(data => console.log('created:', data))
+    await prisma.user.create(newUser)
+    console.log('created:', newUser)
     res.status(200)
     res.json(true)
   } catch (error) {

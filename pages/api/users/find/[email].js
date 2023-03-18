@@ -9,7 +9,8 @@ async function handler(req, res) {
     where: {
       email: email
     }
-  }).then(user => console.log('selected:', user))
+  })
+  console.log('selected:', users)
   res.json(users)
 }
 
