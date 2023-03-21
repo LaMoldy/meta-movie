@@ -16,6 +16,35 @@ async function main() {
       type: 1
     }
   })
+
+  await prisma.movie.upsert({
+    where: { id: 1 },
+    update: {},
+    create: {
+      id: 1,
+      name: "Children of the Corn",
+      imageUrl: "https://tse4.mm.bing.net/th?id=OIP.qvycK7fI-bEcAbXD3j6KqwHaLH",
+      genreId: 7
+    }
+  })
+
+  const genres = [
+    "action", "adventure", "animation",
+    "comedy", "drama", "historical",
+    "horror", "science fiction"
+  ]
+
+  for (let i = 0; i < genres.length; i++) {
+    let index = i + 1
+    await prisma.genre.upsert({
+      where: { id: index },
+      update: {},
+      create: {
+        id: index,
+        name: genres[i]
+      }
+    })
+  }
 }
 
 main()

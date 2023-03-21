@@ -4,15 +4,24 @@ import NavLink from "../../components/navbar/navLink";
 import NavButton from "../../components/navbar/navButton";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
+import { getAllGenres } from "../../services/database";
 
 const Movie = () => {
   const [user, setUser] = useState(null)
+  const [genres, setGenres] = useState([])
   const router = useRouter()
 
   useEffect(() => {
     let loggedInUser = JSON.parse(sessionStorage.getItem("user"))
     setUser(loggedInUser)
-  })
+
+    async function fetchGenres() {
+      let genres = await getAllGenres()
+      setGenres(genres)
+    }
+
+    fetchGenres()
+  }, [])
 
   return (
     <Container
@@ -42,8 +51,12 @@ const Movie = () => {
         <Input backgroundColor={"white"} m={5} placeholder="Name" />
         <Input backgroundColor={"white"} mb={5} placeholder="Director" />
         <Input backgroundColor={"white"} mb={5} placeholder="Poster URL" />
-        <Select placeholder="Genre" backgroundColor={"white"} mb={5}>
-          <option value="Horror">Horror</option>
+        <Select backgroundColor={"white"} mb={5}>
+          {
+            genres.map(genre => (
+              <option value={genre.id} key={genre.id}>{genre.name}</option>
+            ))
+          }
         </Select>
         <Button colorScheme={"blue"}>Add</Button>
       </Flex>
