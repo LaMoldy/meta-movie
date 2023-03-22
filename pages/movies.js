@@ -4,6 +4,8 @@ import { useEffect, useState } from "react"
 import Navbar from "../components/navbar/navbar"
 import NavButton from "../components/navbar/navButton"
 import NavLink from "../components/navbar/navLink"
+import { getAllMovies } from "../services/database"
+import MovieCard from "../components/movieCard"
 
 const Movies = () => {
   const [user, setUser] = useState(null)
@@ -20,6 +22,13 @@ const Movies = () => {
     }
 
     setUser(foundUser)
+
+    async function fetchMovies() {
+      let moviesList = await getAllMovies()
+      setMovies(moviesList)
+    }
+
+    fetchMovies()
   }, [])
 
   return (
@@ -58,7 +67,11 @@ const Movies = () => {
           <NavButton path={router.asPath} />
         </Navbar>
       }
-      <Text color={'white'}>Working</Text>
+      {
+        movies.map(movie => (
+          <MovieCard imageUrl={movie.imageUrl} movieName={movie.name} id={movie.id}></MovieCard>
+        ))
+      }
     </Container>
   )
 }
