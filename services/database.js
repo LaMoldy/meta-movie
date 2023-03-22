@@ -21,3 +21,9 @@ export async function getAllGenres() {
   const data = await res.json()
   return data
 }
+
+export async function createMovie(name, imageUrl, genreId) {
+  const res = await fetch(`/api/movies/create/${name}/${imageUrl}/${genreId}`)
+  const data = await res.json()
+  return data
+}

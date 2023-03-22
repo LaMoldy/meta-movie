@@ -23,6 +23,7 @@ async function main() {
     create: {
       id: 1,
       name: "Children of the Corn",
+      director: "David Price",
       imageUrl: "https://tse4.mm.bing.net/th?id=OIP.qvycK7fI-bEcAbXD3j6KqwHaLH",
       genreId: 7
     }
