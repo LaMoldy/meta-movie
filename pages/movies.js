@@ -7,13 +7,14 @@ import NavLink from "../components/navbar/navLink"
 
 const Movies = () => {
   const [user, setUser] = useState(null)
+  const [movies, setMovies] = useState([])
   const [isAdmin, setIsAdmin] = useState(false)
 
   let router = useRouter()
 
   useEffect(() => {
     let foundUser = JSON.parse(sessionStorage.getItem('user'))
-    
+
     if (foundUser.type === 1) {
       setIsAdmin(true)
     }
@@ -32,7 +33,7 @@ const Movies = () => {
       m={0}
       bgColor="#383736"
     >
-      { isAdmin && 
+      {isAdmin &&
         <Navbar>
           <NavLink href="/" path={router.asPath}>
             <Text>Home</Text>
@@ -46,7 +47,7 @@ const Movies = () => {
           <NavButton path={router.asPath} />
         </Navbar>
       }
-      { !isAdmin &&
+      {!isAdmin &&
         <Navbar>
           <NavLink href={'/'} path={router.asPath}>
             <Text>Home</Text>

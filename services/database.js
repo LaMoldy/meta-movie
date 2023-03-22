@@ -27,3 +27,15 @@ export async function createMovie(name, imageUrl, genreId) {
   const data = await res.json()
   return data
 }
+
+export async function getAllMovies() {
+  const res = await fetch(`/api/movies/find/movies`)
+  const data = await res.json()
+  return data
+}
+
+export async function getMovie(id) {
+  const res = await fetch(`/api/movies/find/${id}`)
+  const data = await res.json()
+  return data
+}
