@@ -1,4 +1,5 @@
 import { Button, Container, Flex, Heading, Text } from "@chakra-ui/react"
+import Head from "next/head"
 import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
 import NavButton from "../components/navbar/navButton"
@@ -25,6 +26,9 @@ const Admin = () => {
       m={0}
       bgColor="#383736"
     >
+      <Head>
+        <title data-testid="pageTitle">Admin Panel</title>
+      </Head>
       <Navbar>
         <NavLink href="/" path={router.asPath}>
           <Text>Home</Text>
@@ -38,8 +42,8 @@ const Admin = () => {
         <NavButton path={router.asPath}></NavButton>
       </Navbar>
       <Flex flexDirection={"column"} w={80} justifyContent={"center"} alignItems={"center"} margin={"100px auto 0 auto"}>
-        <Heading color={"white"} textAlign={"center"}>Admin Panel</Heading>
-        <Button as="a" colorScheme={"blue"} w={"100%"} mt={10} href={"/add/movie"}>Add Movie</Button>
+        <Heading color={"white"} textAlign={"center"} data-testid="header">Admin Panel</Heading>
+        <Button as="a" colorScheme={"blue"} w={"100%"} mt={10} href={"/add/movie"} data-testid="button">Add Movie</Button>
       </Flex>
     </Container>
   )

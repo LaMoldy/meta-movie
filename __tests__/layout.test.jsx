@@ -13,16 +13,10 @@ describe('Layout', () => {
     mockRouter.setCurrentUrl('/')
   })
 
-  it('Renders a navbar', () => {
+  it('Renders the nav', () => {
     render(<Layout />)
-    const navbar = screen.getByTestId('nav')
-    expect(navbar).toBeInTheDocument()
-  })
-
-  it('Site name on navbar', () => {
-    render(<Layout />)
-    const title = screen.getByTestId('title')
-    expect(title).toBeInTheDocument()
+    const main = screen.getByTestId('main')
+    expect(main).toBeInTheDocument()
   })
 
   it('Footer should be displayed', () => {

@@ -15,10 +15,10 @@ import Head from 'next/head'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
 import PasswordInput from '../components/inputs/passwordInput'
+import NavLink from '../components/navbar/navLink'
+import Navbar from '../components/navbar/navbar'
 import { createUser } from '../services/database'
 import { isEmailTaken, validateEmailPasswordForm } from '../services/validation'
-import Navbar from '../components/navbar/navbar'
-import NavLink from '../components/navbar/navLink'
 
 const Register = () => {
   const [error, setError] = useState(false)
@@ -95,7 +95,7 @@ const Register = () => {
             color="white"
             textAlign="center"
             mb={4}
-            data-testid="loginTitle"
+            data-testid="registerTitle"
           >
             Register
           </Heading>
@@ -112,7 +112,7 @@ const Register = () => {
             focusBorderColor="none"
             borderRadius={1}
             bgColor="white"
-            data-testid="loginUsername"
+            data-testid="registerUsername"
             mb={3}
             onKeyUp={onKeyUpHandler}
             id="email"
@@ -129,7 +129,7 @@ const Register = () => {
           <Button
             colorScheme="blue"
             width={'100%'}
-            data-testid="loginSubmit"
+            data-testid="registerSubmit"
             onClick={submitForm}
           >
             {isLoading ? (

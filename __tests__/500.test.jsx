@@ -3,6 +3,9 @@ import { render, screen } from '@testing-library/react'
 
 import ServerProblemPage from '../pages/500'
 
+jest.mock('next/router', () => require('next-router-mock'))
+jest.mock('next/dist/client/router', () => require('next-router-mock'))
+
 describe('404 Page', () => {
   it('Image should be present', () => {
     render(<ServerProblemPage />)

@@ -3,6 +3,9 @@ import { render, screen } from '@testing-library/react'
 
 import UnknownPage from '../pages/404'
 
+jest.mock('next/router', () => require('next-router-mock'))
+jest.mock('next/dist/client/router', () => require('next-router-mock'))
+
 describe('404 Page', () => {
   it('Image should be present', () => {
     render(<UnknownPage />)
