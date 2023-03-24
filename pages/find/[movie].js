@@ -1,6 +1,6 @@
-import { Container, Flex, Heading, Text } from "@chakra-ui/react"
-import { useRouter } from "next/router"
-import { useEffect, useState } from "react"
+import { Container, Flex, Heading, Text } from '@chakra-ui/react'
+import { useRouter } from 'next/router'
+import { useEffect, useState } from 'react'
 import MovieCard from '../components/movieCard'
 import NavButton from '../components/navbar/navButton'
 import NavLink from '../components/navbar/navLink'
@@ -67,8 +67,18 @@ const Movies = () => {
           <NavButton path={router.asPath} />
         </Navbar>
       )}
-      <Heading color={"white"} textAlign={"center"} mt={20}>Movies</Heading>
-      <Flex mt={10} ml={"auto"} mr={"auto"} w={"78%"} flexDirection={"row"} flexWrap={"wrap"} gap={9}>
+      <Heading color={'white'} textAlign={'center'} mt={20}>
+        Movies
+      </Heading>
+      <Flex
+        mt={10}
+        ml={'auto'}
+        mr={'auto'}
+        w={'78%'}
+        flexDirection={'row'}
+        flexWrap={'wrap'}
+        gap={9}
+      >
         {movies.map(movie => (
           <MovieCard
             imageUrl={movie.imageUrl}

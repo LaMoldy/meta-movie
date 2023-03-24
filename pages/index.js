@@ -1,43 +1,39 @@
-import { Button, Container, Flex, Heading, Input, Text } from '@chakra-ui/react'
-import Head from 'next/head'
+import { Container, Flex, Heading, Text } from '@chakra-ui/react'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
+import MovieCard from '../components/movieCard'
 import NavButton from '../components/navbar/navButton'
 import NavLink from '../components/navbar/navLink'
 import Navbar from '../components/navbar/navbar'
-
-const onKeyDown = event => {
-  let keyCode = event.keyCode
-
-  // Enter key = 13
-  if (keyCode === 13) {
-    alert('Enter has been pressed')
-  }
-}
-
-const onSearchClick = () => {
-  alert('Search Clicked')
-}
+import { getAllMovies } from '../services/database'
 
 const Home = () => {
   const [user, setUser] = useState(null)
-  const [isUserLoggedIn, setLoggedInUser] = useState(false)
+  const [movies, setMovies] = useState([])
   const [isAdmin, setIsAdmin] = useState(false)
-  const router = useRouter()
+  const [isUser, setIsUser] = useState(false)
+
+  let router = useRouter()
 
   useEffect(() => {
-    let possibleUser = JSON.parse(sessionStorage.getItem('user'))
+    let foundUser = JSON.parse(sessionStorage.getItem('user'))
 
-    if (possibleUser !== null) {
-      setLoggedInUser(true)
-      if (possibleUser.type === 1) {
+    if (foundUser) {
+      if (foundUser.type === 1) {
         setIsAdmin(true)
       }
+
+      setIsUser(true)
+      setUser(foundUser)
     }
 
-    setUser(possibleUser)
-    console.log(user)
-  }, [isUserLoggedIn])
+    async function fetchMovies() {
+      let moviesList = await getAllMovies()
+      setMovies(moviesList)
+    }
+
+    fetchMovies()
+  }, [])
 
   return (
     <Container
@@ -50,75 +46,65 @@ const Home = () => {
       m={0}
       bgColor="#383736"
     >
-        { (isUserLoggedIn && isAdmin) &&
-          <Navbar>
-            <NavLink href="/admin" path={router.asPath}>
-              <Text>Admin panel</Text>
-            </NavLink>
-            <NavLink href="/movies" path={router.asPath}>
-              <Text>Movies</Text>
-            </NavLink>
-            <NavLink href={"/profile/" + user.id} path={router.asPath}>
-              <Text>Profile</Text>
-            </NavLink>
-            <NavButton path={router.asPath} />
-          </Navbar>
-        }
-        { (isUserLoggedIn && !isAdmin) &&
-          <Navbar>
-            <NavLink href="/movies" path={router.asPath}>
-              <Text>Movies</Text>
-            </NavLink>
-            <NavLink href={"/profile/" + user.id} path={router.asPath}>
-              <Text>Profile</Text>
-            </NavLink>
-            <NavButton path={router.asPath} />
-          </Navbar>
-        }
-        { !isUserLoggedIn &&
-          <Navbar>
-            <NavLink href="/" path={router.asPath}>
-              <Text>Home</Text>
-            </NavLink>
-            <NavLink href="/login" path={router.asPath}>
-              <Text>Login</Text>
-            </NavLink>
-            <NavLink href="/register" path={router.asPath}>
-              <Text>Sign Up</Text>
-            </NavLink>
-          </Navbar>
-        }
-      <Head>
-        <title>Home</title>
-      </Head>
-      <Container>
-        <Flex
-          flexDir="column"
-          mt={{ base: '6em', sm: '10em', md: '12em', lg: '15em' }}
-        >
-          <Heading as="h4" color="white" textAlign="center" mb={4}>
-            Movies Anywhere Everywhere
-          </Heading>
-          <Container display="flex" flexDir="row">
-            <Input
-              placeholder="Search for a movie"
-              focusBorderColor="none"
-              borderRightRadius={0}
-              bgColor="white"
-              data-testid="movieInput"
-              onKeyUp={onKeyDown}
-            />
-            <Button
-              colorScheme="blue"
-              borderLeftRadius={0}
-              onClick={onSearchClick}
-              data-testid="inputSearchButton"
-            >
-              Search
-            </Button>
-          </Container>
-        </Flex>
-      </Container>
+      {isAdmin && (
+        <Navbar>
+          <NavLink href="/" path={router.asPath}>
+            <Text>Home</Text>
+          </NavLink>
+          <NavLink href="/admin" path={router.asPath}>
+            <Text>Admin panel</Text>
+          </NavLink>
+          <NavLink href={'/profile/' + user?.id} path={router.asPath}>
+            <Text>Profile</Text>
+          </NavLink>
+          <NavButton path={router.asPath} />
+        </Navbar>
+      )}
+      {!isAdmin && isUser && (
+        <Navbar>
+          <NavLink href={'/'} path={router.asPath}>
+            <Text>Home</Text>
+          </NavLink>
+          <NavLink href={'/profile/' + user?.id} path={router.asPath}>
+            <Text>Profile</Text>
+          </NavLink>
+          <NavButton path={router.asPath} />
+        </Navbar>
+      )}
+      {!isUser && !isAdmin && (
+        <Navbar>
+          <NavLink href={'/'} path={router.asPath}>
+            <Text>Home</Text>
+          </NavLink>
+          <NavLink href={'/login'} path={router.asPath}>
+            <Text>Login</Text>
+          </NavLink>
+          <NavLink href={'/register'} path={router.asPath}>
+            <Text>Sign up</Text>
+          </NavLink>
+        </Navbar>
+      )}
+      <Heading color={'white'} textAlign={'center'} mt={20}>
+        Movies
+      </Heading>
+      <Flex
+        mt={10}
+        ml={'auto'}
+        mr={'auto'}
+        w={'78%'}
+        flexDirection={'row'}
+        flexWrap={'wrap'}
+        gap={9}
+      >
+        {movies.map(movie => (
+          <MovieCard
+            imageUrl={movie.imageUrl}
+            movieName={movie.name}
+            id={movie.id}
+            key={movie.id}
+          ></MovieCard>
+        ))}
+      </Flex>
     </Container>
   )
 }

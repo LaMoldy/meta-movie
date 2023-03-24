@@ -5,6 +5,8 @@ const prisma = new PrismaClient()
 async function handler(req, res) {
   const { id } = req.query
 
+  console.log('api id:', id)
+
   const movie = await prisma.movie.findUnique({
     where: {
       id: Number.parseInt(id)

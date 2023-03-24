@@ -47,7 +47,7 @@ const Profile = () => {
       m={0}
       bgColor="#383736"
     >
-      { isAdmin &&
+      {isAdmin && (
         <Navbar>
           <NavLink href="/" path={router.asPath}>
             <Text>Home</Text>
@@ -60,8 +60,8 @@ const Profile = () => {
           </NavLink>
           <NavButton path={router.asPath} />
         </Navbar>
-      }
-      { !isAdmin &&
+      )}
+      {!isAdmin && (
         <Navbar>
           <NavLink href={'/'} path={router.asPath}>
             <Text>Home</Text>
@@ -71,27 +71,50 @@ const Profile = () => {
           </NavLink>
           <NavButton path={router.asPath} />
         </Navbar>
-      }
+      )}
 
-      <Image src={userProfilePic} w={150} height={150} borderRadius={10} m={'75px auto 0 auto'} />
-      <Flex flexDir="column" justifyContent={'center'} alignItems={'center'} gap={5} mt={'40px'}>
-        <Box as='div'>
+      <Image
+        src={userProfilePic}
+        w={150}
+        height={150}
+        borderRadius={10}
+        m={'75px auto 0 auto'}
+        alt={'profile picture'}
+      />
+      <Flex
+        flexDir="column"
+        justifyContent={'center'}
+        alignItems={'center'}
+        gap={5}
+        mt={'40px'}
+      >
+        <Box as="div">
           <Text fontSize={'1.25em'} color={'white'}>
             Email:
           </Text>
           <Input backgroundColor={'white'} w={300} value={email} disabled />
         </Box>
-        <Box as='div'>
+        <Box as="div">
           <Text fontSize={'1.25em'} color={'white'}>
             Profile Image:
           </Text>
-          <Input backgroundColor={'white'} w={300} value={profileUrl} onChange={(e) => setProfileUrl(e.target.value)} />
+          <Input
+            backgroundColor={'white'}
+            w={300}
+            value={profileUrl}
+            onChange={e => setProfileUrl(e.target.value)}
+          />
         </Box>
-        <Box as='div'>
+        <Box as="div">
           <Text fontSize={'1.25em'} color={'white'}>
             Name:
           </Text>
-          <Input backgroundColor={'white'} w={300} value={name} onChange={(e) => setName(e.target.value)} />
+          <Input
+            backgroundColor={'white'}
+            w={300}
+            value={name}
+            onChange={e => setName(e.target.value)}
+          />
         </Box>
         <Button colorScheme={'blue'} w={75} onClick={applyChanges}>
           Apply

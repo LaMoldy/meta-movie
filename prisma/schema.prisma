@@ -20,11 +20,13 @@ model User {
 }
 
 model Movie {
-  id       Int    @id @default(autoincrement())
-  name     String @default("")
-  director String @default("")
-  imageUrl String @default("https://tse2.mm.bing.net/th?id=OIP.BgFEz5zHKDI9fZhtrdhbLQHaHa")
-  genreId  Int    @default(1)
+  id          Int    @id @default(autoincrement())
+  name        String @default("")
+  director    String @default("")
+  description String @default("")
+  rating      Int    @default(0)
+  imageUrl    String @default("https://tse2.mm.bing.net/th?id=OIP.BgFEz5zHKDI9fZhtrdhbLQHaHa")
+  genreId     Int    @default(1)
 }
 
 model Genre {

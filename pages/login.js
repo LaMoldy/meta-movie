@@ -15,13 +15,10 @@ import Head from 'next/head'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
 import PasswordInput from '../components/inputs/passwordInput'
-import { validateEmailPasswordForm } from '../services/validation'
-import { verifyUser } from '../services/validation'
-import Navbar from '../components/navbar/navbar'
 import NavLink from '../components/navbar/navLink'
+import Navbar from '../components/navbar/navbar'
 import { getUser } from '../services/database'
-
-
+import { validateEmailPasswordForm, verifyUser } from '../services/validation'
 
 const Login = () => {
   const [email, setEmail] = useState('')
@@ -51,9 +48,9 @@ const Login = () => {
       try {
         await verifyUser(email, password)
         setIsLoading(false)
-        let user = await getUser(email);
+        let user = await getUser(email)
         sessionStorage.setItem('user', JSON.stringify(user))
-        router.push('/movies')
+        router.push('/')
       } catch (errorMessage) {
         setError(true)
         setErrorMessage('Invalid email or password')
