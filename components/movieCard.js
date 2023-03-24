@@ -11,8 +11,8 @@ const MovieCard = (props) => {
   }
 
   return (
-    <Box w={150} textAlign={"center"}>
-      <Image borderRadius={10} src={props.imageUrl} _hover={{ cursor: "pointer" }} onClick={onClickHandler} />
+    <Box w={150} mb={5} textAlign={"center"} overflow={"hidden"} whiteSpace={"nowrap"} textOverflow={"ellipsis"} color={"white"}>
+      <Image borderRadius={10} h={225} src={props.imageUrl} _hover={{ cursor: "pointer" }} onClick={onClickHandler} />
       <NextLink href={link}>
         <Link color={"white"} mt={1}>{props.movieName}</Link>
       </NextLink>

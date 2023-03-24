@@ -1,11 +1,11 @@
-import { Container, Text } from "@chakra-ui/react"
+import { Container, Flex, Heading, Text } from "@chakra-ui/react"
 import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
-import Navbar from "../components/navbar/navbar"
-import NavButton from "../components/navbar/navButton"
-import NavLink from "../components/navbar/navLink"
-import { getAllMovies } from "../services/database"
-import MovieCard from "../components/movieCard"
+import MovieCard from '../components/movieCard'
+import NavButton from '../components/navbar/navButton'
+import NavLink from '../components/navbar/navLink'
+import Navbar from '../components/navbar/navbar'
+import { getAllMovies } from '../services/database'
 
 const Movies = () => {
   const [user, setUser] = useState(null)
@@ -42,7 +42,7 @@ const Movies = () => {
       m={0}
       bgColor="#383736"
     >
-      {isAdmin &&
+      {isAdmin && (
         <Navbar>
           <NavLink href="/" path={router.asPath}>
             <Text>Home</Text>
@@ -50,30 +50,36 @@ const Movies = () => {
           <NavLink href="/admin" path={router.asPath}>
             <Text>Admin panel</Text>
           </NavLink>
-          <NavLink href={"/profile/" + user?.id} path={router.asPath}>
+          <NavLink href={'/profile/' + user?.id} path={router.asPath}>
             <Text>Profile</Text>
           </NavLink>
           <NavButton path={router.asPath} />
         </Navbar>
-      }
-      {!isAdmin &&
+      )}
+      {!isAdmin && (
         <Navbar>
           <NavLink href={'/'} path={router.asPath}>
             <Text>Home</Text>
           </NavLink>
-          <NavLink href={"/profile/" + user?.id} path={router.asPath}>
+          <NavLink href={'/profile/' + user?.id} path={router.asPath}>
             <Text>Profile</Text>
           </NavLink>
           <NavButton path={router.asPath} />
         </Navbar>
-      }
-      {
-        movies.map(movie => (
-          <MovieCard imageUrl={movie.imageUrl} movieName={movie.name} id={movie.id}></MovieCard>
-        ))
-      }
+      )}
+      <Heading color={"white"} textAlign={"center"} mt={20}>Movies</Heading>
+      <Flex mt={10} ml={"auto"} mr={"auto"} w={"78%"} flexDirection={"row"} flexWrap={"wrap"} gap={9}>
+        {movies.map(movie => (
+          <MovieCard
+            imageUrl={movie.imageUrl}
+            movieName={movie.name}
+            id={movie.id}
+            key={movie.id}
+          ></MovieCard>
+        ))}
+      </Flex>
     </Container>
   )
 }
 
-export default Movies 
+export default Movies
